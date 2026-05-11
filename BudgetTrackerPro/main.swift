@@ -7,9 +7,9 @@
 
 import Foundation
 
-// MARK: - Модели данных
+// MARK: - 1️⃣ Импорты и модели данных
 
-enum ExpenseType: String, CaseIterable {
+enum ExpenseType: String, CaseIterable {  // позволяет получить массив всех кейсов (нужно для allCases).
     case grocery = "grocery"
     case household = "household"
     case petProduct = "pet product"
@@ -23,7 +23,7 @@ struct Expense {
     let type: ExpenseType
 }
 
-enum Command: String {
+enum Command: String { // 2️⃣ Команды пользователя
     case setBudget = "set budget"
     case addExpense = "add expense"
     case showAllExpenses = "show all expenses"
@@ -33,21 +33,20 @@ enum Command: String {
     case exit = "exit"
 }
 
-// MARK: - BudgetManager (ты уже написала)
+// MARK: - BudgetManager
 
-class BudgetManager {
-    // MARK: - Хранимые свойства
-    private(set) var budget: Double = 0.0
+class BudgetManager { // 3️⃣ Класс BudgetManager
+    
+    private(set) var budget: Double = 0.0 // MARK: - Хранимые свойства - инкапсуляция
     private(set) var expenses: [Expense] = []
     
-    // MARK: - Вычисляемые свойства
-    var remainingBudget: Double { max(0, budget) }
-    var totalSpent: Double {
+    var remainingBudget: Double { max(0, budget) } // MARK: - Вычисляемые свойства
+    var totalSpent: Double { // Выглядят как переменные, но вычисляются каждый раз при обращении.
         expenses.reduce(0) { $0 + $1.amount }
     }
     
-    // MARK: - Методы
-    func setBudget(amount: Double) {
+    // MARK: - Методы управления
+    func setBudget(amount: Double) { // Просто сохраняет бюджет.
         budget = amount
         print("✅ Budget set to \(budget)")
     }
@@ -59,13 +58,13 @@ class BudgetManager {
         print("✅ Added: \(expense.title) - \(expense.amount) [\(expense.type.rawValue)]")
     }
     
-    func showBudget() {
+    func showBudget() { // Использует вычисляемые свойства remainingBudget и totalSpent.
         print("💰 Remaining budget: \(remainingBudget) | Total spent: \(totalSpent)")
     }
     
-    func selectExpenseType() -> ExpenseType? {
+    func selectExpenseType() -> ExpenseType? { // Читает ввод user и возвращает выбранный тип or nil.
         print("Choose category:")
-        ExpenseType.allCases.enumerated().forEach { index, type in
+        ExpenseType.allCases.enumerated().forEach { index, type in // enumerated() — даёт индекс и элемент.
             print("\(index + 1). \(type.rawValue)")
         }
         
@@ -94,9 +93,9 @@ class BudgetManager {
             return
         }
         
-        let stats = Dictionary(grouping: expenses, by: { $0.type })
-            .mapValues { $0.reduce(0) { $0 + $1.amount } }
-            .sorted { $0.value > $1.value }
+        let stats = Dictionary(grouping: expenses, by: { $0.type }) // группирует расходы по категориям.
+            .mapValues { $0.reduce(0) { $0 + $1.amount } } // mapValues { ... } — заменяет массив расходов на сумму по категории.
+            .sorted { $0.value > $1.value } // сортирует по убыванию суммы.
         
         print("📊 Expenses by category:")
         for (type, sum) in stats {
@@ -104,16 +103,16 @@ class BudgetManager {
         }
     }
     
-    func resetDay() {
+    func resetDay() { // Очищает массив и обнуляет бюджет.
         expenses.removeAll()
         budget = 0.0
         print("🔄 Day reset")
     }
 }
 
-// MARK: - Главная программа
+// MARK: - 4️⃣ Главная программа
 
-let manager = BudgetManager()
+let manager = BudgetManager() // Создаёт экземпляр класса.
 
 print("""
 📋 Available commands:
@@ -126,7 +125,7 @@ print("""
   🚪 exit           - exit program
 """)
 
-repeat {
+repeat { // repeat ... while true — бесконечный цикл, но с проверкой условия в конце (не принципиально).
     print("\n> ", terminator: "")
     guard let input = readLine()?.trimmingCharacters(in: .whitespaces), !input.isEmpty else { continue }
     
