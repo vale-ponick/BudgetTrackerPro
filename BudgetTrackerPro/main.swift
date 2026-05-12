@@ -2,14 +2,11 @@
 //  main.swift
 //  BudgetTracker
 //
-//  Created by Валерия Пономарева on 11.05.2026.
-//
+//  Created by Валерия Пономарева on 11.05.2026
 
 import Foundation
 
-// MARK: - 1️⃣ Импорты и модели данных
-
-enum ExpenseType: String, CaseIterable {  // позволяет получить массив всех кейсов (нужно для allCases).
+enum ExpenseType: String, CaseIterable {  // MARK: - 1️⃣ Импорты и модели данных
     case grocery = "grocery"
     case household = "household"
     case petProduct = "pet product"
@@ -23,7 +20,7 @@ struct Expense {
     let type: ExpenseType
 }
 
-enum Command: String { // 2️⃣ Команды пользователя
+enum Command: String { // MARK: - 2️⃣ Команды пользователя
     case setBudget = "set budget"
     case addExpense = "add expense"
     case showAllExpenses = "show all expenses"
@@ -33,9 +30,7 @@ enum Command: String { // 2️⃣ Команды пользователя
     case exit = "exit"
 }
 
-// MARK: - BudgetManager
-
-class BudgetManager { // 3️⃣ Класс BudgetManager
+class BudgetManager { // MARK: - 3️⃣ Класс BudgetManager
     
     private(set) var budget: Double = 0.0 // MARK: - Хранимые свойства - инкапсуляция
     private(set) var expenses: [Expense] = []
@@ -45,8 +40,7 @@ class BudgetManager { // 3️⃣ Класс BudgetManager
         expenses.reduce(0) { $0 + $1.amount }
     }
     
-    // MARK: - Методы управления
-    func setBudget(amount: Double) { // Просто сохраняет бюджет.
+    func setBudget(amount: Double) { // // MARK: - Методы управления - Просто сохраняет бюджет.
         budget = amount
         print("✅ Budget set to \(budget)")
     }
@@ -110,9 +104,7 @@ class BudgetManager { // 3️⃣ Класс BudgetManager
     }
 }
 
-// MARK: - 4️⃣ Главная программа
-
-let manager = BudgetManager() // Создаёт экземпляр класса.
+let manager = BudgetManager() // MARK: - 4️⃣ Главная программа - Создаёт экземпляр класса.
 
 print("""
 📋 Available commands:
